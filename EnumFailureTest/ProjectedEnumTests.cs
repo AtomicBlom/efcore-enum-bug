@@ -55,6 +55,8 @@ namespace EnumFailureTest
                     animal.Id,
                     animal.IdentificationMethods.FirstOrDefault().Method
                 };
+
+            //throws InvalidOperationException:
             var result = await query.SingleOrDefaultAsync();
             Assert.Equal(IdentificationMethod.EarTag, result.Method);
         }
