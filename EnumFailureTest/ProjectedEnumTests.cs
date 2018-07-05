@@ -40,8 +40,12 @@ namespace EnumFailureTest
         [Fact]
         public async Task EnumMapsViaStringCorrectlyWhenQueriedDirectly()
         {
-            var animal = await Context.Animals.Include(a => a.IdentificationMethods).FirstOrDefaultAsync();
-            Assert.Equal(IdentificationMethod.EarTag, animal.IdentificationMethods.First().Method);
+            var animal = await Context.Animals
+                .Include(a => a.IdentificationMethods)
+                .FirstOrDefaultAsync();
+
+            var method = animal.IdentificationMethods.First().Method;
+            Assert.Equal(IdentificationMethod.EarTag, method);
         }
 
         //Attempting to perform any subquery on IdentificationMethods causes efcore to ignore the .HasConversion
@@ -70,14 +74,17 @@ namespace EnumFailureTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                //.UseSqlite("Data Source=test.db");
-                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EnumTest;Trusted_Connection=True;MultipleActiveResultSets=true;Application Name=EnumTest");
+                //.UseSqlite("Data Source=EnumTest.db");
+                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EnumTest;Trusted_Connection=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var postModelBuilder = modelBuilder.Entity<AnimalIdentification>();
-            postModelBuilder.Property(e => e.Method).IsRequired().HasMaxLength(6).HasConversion(typeof(string));
+            postModelBuilder.Property(e => e.Method)
+                .IsRequired()
+                .HasMaxLength(6)
+                .HasConversion(typeof(string));
         }
     }
 
