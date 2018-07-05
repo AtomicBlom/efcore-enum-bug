@@ -67,7 +67,9 @@ namespace EnumFailureTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EnumTest;Trusted_Connection=True;MultipleActiveResultSets=true;Application Name=EnumTest");
+            optionsBuilder
+                //.UseSqlite("Data Source=test.db");
+                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EnumTest;Trusted_Connection=True;MultipleActiveResultSets=true;Application Name=EnumTest");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
