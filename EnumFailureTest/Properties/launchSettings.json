@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EnumFailureTest": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\StevenBlom\\source\\repos\\EnumFailureTest\\EnumFailureTest"
+    }
+  }
+}
